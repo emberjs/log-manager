@@ -1,0 +1,24 @@
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>lib-kit Tests</title>
+  <link rel='stylesheet' href='vendor/qunit.css' />
+</head>
+<body>
+  <div id='mocha'></div>
+  <script src='vendor/qunit.js'></script>
+  <script>
+  </script>
+  <script src='tests.js'></script>
+  <script>
+
+    Object.keys(require.entries).filter(function(file) {
+      return /_test$/.test(file);
+    }).map(require);
+
+  </script>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+</body>
+</html>
