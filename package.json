@@ -1,7 +1,7 @@
 {
   "name": "log-manager",
   "version": "0.0.1",
-  "description": "",
+  "description": "Logging library with hierarchy and appenders.",
   "main": "dist/commonjs/main.js",
   "directories": {
     "lib": "lib"
@@ -27,7 +27,7 @@
     "prepublish": "grunt build",
     "postinstall": "bower install"
   },
-  "keywords": [],
+  "keywords": ["logging", "logger"],
   "author": "",
   "license": "MIT"
 }

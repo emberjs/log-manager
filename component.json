@@ -1,11 +1,11 @@
 {
-  "name": "thing",
-  "description": "",
+  "name": "log-manager",
+  "description": "Logging library with hierarchy and appenders.",
   "keywords": [
-    "promise",
-    "deferred"
+    "logger",
+    "logging"
   ],
-  "version": "",
+  "version": "0.0.1",
   "scripts": [
     "main.js"
   ],
