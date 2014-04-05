@@ -76,3 +76,34 @@ test("#info with logging disabled", function() {
   equal(message, null);
   equal(level, null);
 });
+
+test("string message format", function() {
+  setup({name: 'routes', levels: ['info']});
+  logger.info("Hi");
+  equal(message, "Hi");
+});
+
+test("lazy toString message format", function() {
+  setup({name: 'routes', levels: ['info']});
+  var person1 = {
+    toString: function() {
+      return 'Teddy';
+    }
+  };
+  var person2 = {
+    toString: function() {
+      return 'Joey';
+    }
+  }
+  logger.info("Hi @% and @%", [person1, person2]);
+  equal(message, "Hi Teddy and Joey");
+});
+
+test("lazy function message format", function() {
+  setup({name: 'routes', levels: ['info']});
+
+  logger.info(function() {
+    return "Hi Teddy and Joey";
+  });
+  equal(message, "Hi Teddy and Joey");
+});
