@@ -1,23 +1,24 @@
 import Logger from "logger";
+import ConsoleAppender from "appenders/console";
 
-var logger, message, level;
+var logger, message, level, name;
 
 function setup(opts) {
+  opts.appenders = [ {
+    log: function(n, l, m) {
+      message = m;
+      level = l;
+      name = n;
+    }
+  } ];
   logger = new Logger(opts);
-
-  logger.log = function(opts) {
-    message = opts.message;
-    level = opts.level;
-  };
 }
 
 module("Logger", {
-  setup: function() {
-  },
   teardown: function() {
     message = null;
     level = null;
-    logger.destroy();
+    name = null;
   }
 });
 
@@ -31,12 +32,24 @@ test("#info with level info", function() {
   equal(level, 'info');
 });
 
+test("#debug with level debug", function() {
+  setup({
+    name: 'routes',
+    levels: ['debug']
+  });
+  logger.debug("Hello");
+  equal(name, "routes");
+  equal(message, "Hello");
+  equal(level, 'debug');
+});
+
 test("#warn with level warn", function() {
   setup({
     name: 'routes',
     levels: ['warn']
   });
   logger.warn("Hello");
+  equal(name, "routes");
   equal(message, "Hello");
   equal(level, 'warn');
 });
@@ -47,6 +60,8 @@ test("#error with level error", function() {
     levels: ['error']
   });
   logger.error("Hello");
+
+  equal(name, "routes");
   equal(message, "Hello");
   equal(level, 'error');
 });
@@ -57,6 +72,7 @@ test("#info with logging disabled", function() {
     levels: []
   });
   logger.info("Hello");
+  equal(name, null);
   equal(message, null);
   equal(level, null);
 });
