@@ -1,14 +1,15 @@
 import Logger from "logger";
 import ConsoleAppender from "appenders/console";
 
-var logger, message, level, name;
+var logger, message, level, name, time;
 
 function setup(opts) {
   opts.appenders = [ {
-    log: function(n, l, m) {
+    log: function(n, l, m, extra) {
       message = m;
       level = l;
       name = n;
+      time = extra.time;
     }
   } ];
   logger = new Logger(opts);
@@ -27,9 +28,12 @@ test("#info with level info", function() {
     name: 'routes',
     levels: ['info']
   });
+  var now = logger.now();
+  logger.now = function() { return now; };
   logger.info("Hello");
   equal(message, "Hello");
   equal(level, 'info');
+  equal(now.getTime(), time.getTime());
 });
 
 test("#debug with level debug", function() {
