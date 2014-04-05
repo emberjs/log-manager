@@ -37,7 +37,7 @@ Logs to the console.  Uses different methods based on the level.
 `log.debug` uses `console.debug`
 `log.info` use `console.info`
 
-More build-in appenders should come soon.
+More built-in appenders should come soon.
 
 
 ### Logging format
@@ -49,7 +49,8 @@ logManager.addDefaultAppender(new ConsoleAppender());
 var logger = logManager.loggerFor('router');
 
 logger.info('Hello Teddy'); // console.info('Hello Teddy');
-logger.info('Hello @%', ['Teddy']); // console.info('Hello Teddy');
+var person = { toString: 'Teddy' };
+logger.info('Hello @%', [person]); // console.info('Hello Teddy');
 logger.info(function() {
   return 'Hello Teddy';
 }); // console.info('Hello Teddy');
