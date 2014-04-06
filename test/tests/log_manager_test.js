@@ -54,7 +54,6 @@ test("#addAppenderTo a logger parent", function() {
 
 
 test("#addAppenderTo to an already instantiated logger updates the logger's appenders", function() {
-  // instantiate logger
   expect(2);
   var appender = {
     log: function(name, level, message) {
@@ -62,6 +61,7 @@ test("#addAppenderTo to an already instantiated logger updates the logger's appe
     }
   };
 
+  // instantiate loggers
   var logger1 = logManager.loggerFor('router');
   var logger2 = logManager.loggerFor('router.routes');
   var logger3 = logManager.loggerFor('router.routes.transitions');
@@ -70,4 +70,68 @@ test("#addAppenderTo to an already instantiated logger updates the logger's appe
   logger1.info('no');
   logger2.info('yes');
   logger3.info('yes');
+});
+
+test("#levelsFor is inherited by children", function() {
+  expect(4);
+  var appender = {
+    log: function(name, level, message) {
+      equal(message, 'yes');
+      equal(level, 'info');
+    }
+  };
+  logManager.addDefaultAppender(appender);
+  //reset levels
+  logManager.defaultLevels([]);
+
+
+  // configure the level
+  logManager.levelsFor('router.routes', ['info']);
+
+  // instantiate loggers
+  var logger1 = logManager.loggerFor('router');
+  var logger2 = logManager.loggerFor('router.routes');
+  var logger3 = logManager.loggerFor('router.routes.transitions');
+
+
+  logger1.info('no');
+  logger1.error('no');
+  logger2.info('yes');
+  logger2.error('no');
+  logger3.info('yes');
+  logger3.error('no');
+
+});
+
+
+test("#levelsFor to an already instantiated logger updates the logger's levels", function() {
+  expect(4);
+  var appender = {
+    log: function(name, level, message) {
+      equal(message, 'yes');
+      equal(level, 'info');
+    }
+  };
+  logManager.addDefaultAppender(appender);
+  //reset levels
+  logManager.defaultLevels([]);
+
+  // instantiate loggers
+  var logger1 = logManager.loggerFor('router');
+  var logger2 = logManager.loggerFor('router.routes');
+  var logger3 = logManager.loggerFor('router.routes.transitions');
+
+
+  // configure the level
+  logManager.levelsFor('router.routes', ['info']);
+
+
+  logger1.info('no');
+  logger1.error('no');
+  logger2.info('yes');
+  logger2.error('no');
+  logger3.info('yes');
+  logger3.error('no');
+
+
 });
